@@ -17,6 +17,8 @@ connection.connect(function(err) {
   getItems();
 });
 
+var count = 0;
+
 function getItems() {
   var sql = "SELECT * FROM products";
   connection.query(sql, function (error, result) {
@@ -29,40 +31,52 @@ function getItems() {
       console.log(str);
     }
     console.log("");
+    count = result.length;
     getUserInput();
   });
 }
 
 function getUserInput() {
-  inquirer.prompt([
-    {
-      type: "input",
-      name: "index",
-      message: "Which item would you like to purchase?",
-      validate: function (input) {
-        if (isNaN(input)) {
-          return "Please input the item's number.";
+  if (count > 0) {
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "index",
+        message: "Which item would you like to purchase?",
+        validate: function (input) {
+          if (input > 0 && input <= count) {
+            return true;
+          }
+          else if (isNaN(input)) {
+            return "Please input the item's index.";
+          }
+          return "Please input a valid index.";
         }
-        return true;
-      }
-    }, {
-      type: "input",
-      name: "quantity",
-      message: "How much would you like to purchase?",
-      validate: function (input) {
-        if (isNaN(input)) {
-          return "Please input a number.";
+      }, {
+        type: "input",
+        name: "quantity",
+        message: "How much would you like to purchase?",
+        validate: function (input) {
+          if (isNaN(input)) {
+            return "Please input a number.";
+          }
+          else if (input < 0) {
+            return "Please input a positive number";
+          }
+          return true;
         }
-        return true;
       }
-    }
-  ]).then(function (answers) {
-    // console.log(answers);
-    var index = parseInt(answers.index);
-    var quantity = parseInt(answers.quantity);
-    console.log("");
-    checkOrder(index, quantity);
-  });
+    ]).then(function (answers) {
+      // console.log(answers);
+      var index = parseInt(answers.index);
+      var quantity = parseInt(answers.quantity);
+      console.log("");
+      checkOrder(index, quantity);
+    });
+  }
+  else {
+    console.log("There are no items available");
+  }
 }
 
 function checkOrder(index, quantity) {

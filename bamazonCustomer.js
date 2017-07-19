@@ -98,6 +98,8 @@ function checkOrder(index, quantity) {
     }
     else {
       console.log("Processing Order");
+      console.log("In your cart:\n" + result[0].product_name + " - Qty: " + quantity);
+      console.log("");
       var newQuantity = result[0].stock_quantity - quantity;
       var total = result[0].price * quantity;
       var product_sales = result[0].product_sales + total;

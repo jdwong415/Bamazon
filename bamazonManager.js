@@ -51,8 +51,9 @@ function displayInventory() {
     console.log("");
     console.log("Available Items:");
     for (var i = 0; i < result.length; i++) {
-      var str = result[i].item_id + ". " + result[i].product_name + " - $" +
-        result[i].price.toFixed(2) + " - Qty: " + result[i].stock_quantity;
+      var str = result[i].item_id + ". " + result[i].product_name +  " - " + result[i].department_name +
+        " - $" + result[i].price.toFixed(2) + " - Qty: " + result[i].stock_quantity + " - Product Sales: $" +
+        result[i].product_sales.toFixed(2);
       console.log(str);
     }
     console.log("");
@@ -75,8 +76,9 @@ function displayLowInventory() {
       console.log("");
       console.log("Items with Low Inventory:");
       for (var i = 0; i < result.length; i++) {
-        var str = result[i].item_id + ". " + result[i].product_name + " - $" +
-          result[i].price.toFixed(2) + " - Qty: " + result[i].stock_quantity;
+        var str = result[i].item_id + ". " + result[i].product_name + " - " + result[i].department_name +
+        " - $" + result[i].price.toFixed(2) + " - Qty: " + result[i].stock_quantity + " - Product Sales: $" +
+        result[i].product_sales.toFixed(2);
         console.log(str);
       }
       console.log("");
@@ -93,8 +95,9 @@ function addInventory() {
     console.log("");
     console.log("Available Items:");
     for (var i = 0; i < result.length; i++) {
-      var str = result[i].item_id + ". " + result[i].product_name + " - $" +
-        result[i].price.toFixed(2) + " - Qty: " + result[i].stock_quantity;
+      var str = result[i].item_id + ". " + result[i].product_name + " - " + result[i].department_name +
+        " - $" + result[i].price.toFixed(2) + " - Qty: " + result[i].stock_quantity + " - Product Sales: $" +
+        result[i].product_sales.toFixed(2);
       console.log(str);
     }
     console.log("");

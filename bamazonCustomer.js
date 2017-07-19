@@ -26,8 +26,9 @@ function getItems() {
 
     console.log("Available Items:");
     for (var i = 0; i < result.length; i++) {
-      var str = result[i].item_id + ". " + result[i].product_name + " - $" +
-        result[i].price.toFixed(2) + " - Qty: " + result[i].stock_quantity;
+      var str = result[i].item_id + ". " + result[i].product_name + " - " + result[i].department_name + 
+        " - $" + result[i].price.toFixed(2) + " - Qty: " + result[i].stock_quantity + " - Product Sales: $" +
+        result[i].product_sales.toFixed(2);
       console.log(str);
     }
     console.log("");
@@ -98,10 +99,11 @@ function checkOrder(index, quantity) {
     else {
       console.log("Processing Order");
       var newQuantity = result[0].stock_quantity - quantity;
-      processOrder(newQuantity, index);
+      var total = result[0].price * quantity;
+      var product_sales = result[0].product_sales + total;
+      processOrder(newQuantity, product_sales, index);
         
       console.log("Your order has been completed.");
-      var total = result[0].price * quantity;
       console.log("Order Total: $" + total.toFixed(2));
       console.log("Thank you for shopping at Bamazon!\n");
       continueShopping();
@@ -109,11 +111,12 @@ function checkOrder(index, quantity) {
   });
 }
 
-function processOrder(quantity, id) {
+function processOrder(quantity, product_sales, id) {
   var sql = "UPDATE products SET ? WHERE ?";
   connection.query(sql, [
     {
       stock_quantity: quantity,
+      product_sales: product_sales
     }, {
       item_id: id
     }], function (error, result) {

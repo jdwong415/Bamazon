@@ -13,7 +13,7 @@ connection.connect(function(err) {
     console.error('error connecting: ' + err.stack);
     return;
   }
- 
+
   getItems();
 });
 
@@ -44,13 +44,16 @@ function getUserInput() {
         name: "index",
         message: "Which item would you like to purchase?",
         validate: function (input) {
-          if (input > 0 && input <= count) {
-            return true;
+          if (input <= 0 || input > count) {
+            return "Please input a valid index.";
           }
           else if (isNaN(input)) {
             return "Please input the item's index.";
           }
-          return "Please input a valid index.";
+          else if (!isInt(input)) {
+            return "Please input an integer";
+          }
+          return true;
         }
       }, {
         type: "input",
@@ -62,6 +65,9 @@ function getUserInput() {
           }
           else if (input < 0) {
             return "Please input a positive number";
+          }
+          else if (!isInt(input)) {
+            return "Please input an integer";
           }
           return true;
         }
@@ -129,4 +135,9 @@ function continueShopping() {
       connection.end();
     }
   });
+}
+
+function isInt(value) {
+  var x = parseFloat(value);
+  return !isNaN(value) && (x | 0) === x;
 }

@@ -107,13 +107,16 @@ function addInventory() {
           name: "index",
           message: "Which item would you like to stock up?",
           validate: function (input) {
-            if (input > 0 && input <= count) {
-              return true;
+            if (input <= 0 || input > count) {
+              return "Please input a valid index.";
             }
             else if (isNaN(input)) {
               return "Please input the item's index.";
             }
-            return "Please input a valid index.";
+            else if (!isInt(input)) {
+              return "Please input an integer";
+            }
+            return true;
           }
         }, {
           type: "input",
@@ -126,15 +129,14 @@ function addInventory() {
             else if (input < 0) {
               return "Please input a positive number";
             }
+            else if (!isInt(input)) {
+              return "Please input an integer";
+            }
             return true;
           }
         }
       ]).then(function (answers) {
         updateInventory(answers.index, answers.quantity);
-        console.log("");
-        console.log("Item successfully stocked.");
-        console.log("");
-        menu();
       });
     }
     else {
@@ -148,6 +150,11 @@ function updateInventory(index, quantity) {
     " WHERE ?";
   connection.query(sql, {item_id: index}, function (error, result) {
     if (error) throw error;
+
+    console.log("");
+    console.log("Successfully added " + quantity + " units.");
+    console.log("");
+    menu();
   });
 }
 
@@ -185,10 +192,33 @@ function addProduct() {
       else if (input <= 0) {
         return "Please enter a positive number";
       }
+      else if (!isInt(input)) {
+        return "Please input an integer";
+      }
       return true;
     }
   }
   ]).then(function (answers) {
-    console.log(answers);
+    var valuesArr = [[answers.product, answers.department, answers.price, answers.quantity]];
+    addProductDB(valuesArr);
   });
+}
+
+function addProductDB(valuesArr) {
+  var sql = "INSERT INTO products (product_name, department_name, price, stock_quantity) " +
+    "VALUES ?";
+  connection.query(sql, [valuesArr], function (error, result) {
+    if (error) throw error;
+    
+    console.log("");
+    console.log(valuesArr[0][0] + " was successfully added.");
+    console.log("");
+    menu();
+  });
+
+}
+
+function isInt(value) {
+  var x = parseFloat(value);
+  return !isNaN(value) && (x | 0) === x;
 }

@@ -3,15 +3,15 @@ A command-line store app using npm packages MySQL and Inquirer that lets custome
 
 #### bamazonCustomer.js
 
-![Bamazon Customer](./customer.png)
+![Bamazon Customer](./images/customer.png)
 
 #### bamazonManager.js
 
-![Bamazon Manager](./manager.png)
+![Bamazon Manager](./images/manager.png)
 
 #### bamazonSupervisor.js
 
-![Bamazon Supervisor](./supervisor.png)
+![Bamazon Supervisor](./images/supervisor.png)
 
 
 

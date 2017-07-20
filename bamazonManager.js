@@ -170,48 +170,59 @@ function updateInventory(index, quantity) {
 
 // Add a new product to inventory
 function addProduct() {
-  inquirer.prompt([
-  {
-    type: "input",
-    name: "product",
-    message: "Name of product:"
-  }, {
-    type: "input",
-    name: "department",
-    message: "Name of department:"
-  }, {
-    type: "input",
-    name: "price",
-    message: "Price of product:",
-    validate: function (input) {
-      if (isNaN(input)) {
-        return "Please enter a number";
+  var sql = "SELECT department_name FROM departments";
+  connection.query(sql, function (error, result) {
+    if (error) throw error;
+  
+    var depArr = [];
+    result.forEach(function(val) {
+      depArr.push(val.department_name);
+    });
+
+    inquirer.prompt([
+    {
+      type: "input",
+      name: "product",
+      message: "Name of product:"
+    }, {
+      type: "list",
+      name: "department",
+      message: "Name of department:",
+      choices: depArr
+    }, {
+      type: "input",
+      name: "price",
+      message: "Price of product:",
+      validate: function (input) {
+        if (isNaN(input)) {
+          return "Please enter a number";
+        }
+        else if (input <= 0) {
+          return "Please enter a positive number";
+        }
+        return true;
       }
-      else if (input <= 0) {
-        return "Please enter a positive number";
+    }, {
+      type: "input",
+      name: "quantity",
+      message: "Stock quantity:",
+      validate: function (input) {
+        if (isNaN(input)) {
+          return "Please enter a number";
+        }
+        else if (input <= 0) {
+          return "Please enter a positive number";
+        }
+        else if (!isInt(input)) {
+          return "Please input an integer";
+        }
+        return true;
       }
-      return true;
     }
-  }, {
-    type: "input",
-    name: "quantity",
-    message: "Stock quantity:",
-    validate: function (input) {
-      if (isNaN(input)) {
-        return "Please enter a number";
-      }
-      else if (input <= 0) {
-        return "Please enter a positive number";
-      }
-      else if (!isInt(input)) {
-        return "Please input an integer";
-      }
-      return true;
-    }
-  }
-  ]).then(function (answers) {
-    var valuesArr = [[answers.product, answers.department, answers.price, answers.quantity]];
-    addProductDB(valuesArr);
+    ]).then(function (answers) {
+      var valuesArr = [[answers.product, answers.department, answers.price, answers.quantity]];
+      addProductDB(valuesArr);
+    });
   });
 }
 

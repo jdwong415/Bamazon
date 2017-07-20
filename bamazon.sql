@@ -30,7 +30,7 @@ ADD product_sales DECIMAL(13,2) NOT NULL DEFAULT 0;
 
 CREATE TABLE departments (
     department_id INTEGER(10) NOT NULL AUTO_INCREMENT,
-    department_name VARCHAR(50) NOT NULL,
+    department_name VARCHAR(50) NOT NULL UNIQUE,
     over_head_costs DECIMAL(13,2) NOT NULL,
     PRIMARY KEY (department_id)
 );

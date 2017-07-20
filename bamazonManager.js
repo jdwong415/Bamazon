@@ -1,6 +1,7 @@
-var mysql      = require('mysql');
+var mysql = require('mysql');
 var inquirer = require('inquirer');
 
+// MySQL database info
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
@@ -8,6 +9,7 @@ var connection = mysql.createConnection({
   database : 'bamazon'
 });
 
+// Connect to MySQL database
 connection.connect(function(err) {
   if (err) {
     console.error('error connecting: ' + err.stack);
@@ -17,6 +19,7 @@ connection.connect(function(err) {
   menu();
 });
 
+// Display available options and get manager's choice
 function menu() {
   inquirer.prompt([
     {
@@ -44,6 +47,7 @@ function menu() {
   });
 }
 
+// Display the products available
 function displayInventory() {
   var sql = "SELECT * FROM products";
   connection.query(sql, function (error, result) {
@@ -64,6 +68,7 @@ function displayInventory() {
 
 var count = 0;
 
+// Display products with low inventory (< 5)
 function displayLowInventory() {
   var sql = "SELECT * FROM products WHERE stock_quantity < 5";
   connection.query(sql, function (error, result) {
@@ -87,6 +92,7 @@ function displayLowInventory() {
   });
 }
 
+// Restock a product
 function addInventory() {
   var sql = "SELECT * FROM products";
   connection.query(sql, function (error, result) {
@@ -148,6 +154,7 @@ function addInventory() {
   });
 }
 
+// Update database with changes to quantity
 function updateInventory(index, quantity) {
   var sql = "UPDATE products SET stock_quantity = stock_quantity + " + quantity + 
     " WHERE ?";
@@ -161,6 +168,7 @@ function updateInventory(index, quantity) {
   });
 }
 
+// Add a new product to inventory
 function addProduct() {
   inquirer.prompt([
   {
@@ -207,6 +215,7 @@ function addProduct() {
   });
 }
 
+// Insert new product into database
 function addProductDB(valuesArr) {
   var sql = "INSERT INTO products (product_name, department_name, price, stock_quantity) " +
     "VALUES ?";
@@ -218,9 +227,9 @@ function addProductDB(valuesArr) {
     console.log("");
     menu();
   });
-
 }
 
+// Check if value is an integer
 function isInt(value) {
   var x = parseFloat(value);
   return !isNaN(value) && (x | 0) === x;

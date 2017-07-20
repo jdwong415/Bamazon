@@ -1,6 +1,7 @@
-var mysql      = require('mysql');
+var mysql = require('mysql');
 var inquirer = require('inquirer');
 
+// MySQL database info
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
@@ -8,6 +9,7 @@ var connection = mysql.createConnection({
   database : 'bamazon'
 });
 
+// Connect to MySQL database
 connection.connect(function(err) {
   if (err) {
     console.error('error connecting: ' + err.stack);
@@ -19,6 +21,7 @@ connection.connect(function(err) {
 
 var count = 0;
 
+// Display products from database
 function getItems() {
   var sql = "SELECT * FROM products";
   connection.query(sql, function (error, result) {
@@ -37,6 +40,7 @@ function getItems() {
   });
 }
 
+// Get purchase information from customer
 function getUserInput() {
   if (count > 0) {
     inquirer.prompt([
@@ -74,7 +78,6 @@ function getUserInput() {
         }
       }
     ]).then(function (answers) {
-      // console.log(answers);
       var index = parseInt(answers.index);
       var quantity = parseInt(answers.quantity);
       console.log("");
@@ -86,6 +89,8 @@ function getUserInput() {
   }
 }
 
+// Check if product being purchased has enough stock
+// If not, cancel order. Otherwise process order.
 function checkOrder(index, quantity) {
   var sql = "SELECT * FROM products WHERE ?";
   connection.query(sql, {item_id: index}, function (error, result) {
@@ -113,6 +118,7 @@ function checkOrder(index, quantity) {
   });
 }
 
+// Update database with changes
 function processOrder(quantity, product_sales, id) {
   var sql = "UPDATE products SET ? WHERE ?";
   connection.query(sql, [
@@ -126,6 +132,7 @@ function processOrder(quantity, product_sales, id) {
   });
 }
 
+// Ask customer if they want to continue shopping
 function continueShopping() {
   inquirer.prompt({
     type: "confirm",
@@ -142,6 +149,7 @@ function continueShopping() {
   });
 }
 
+// Check if value is an integer
 function isInt(value) {
   var x = parseFloat(value);
   return !isNaN(value) && (x | 0) === x;

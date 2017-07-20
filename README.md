@@ -26,7 +26,7 @@ Run the following in a terminal to view the Manager View.
 ```
 node bamazonManager.js
 ```
-A menu with different options is displayed.
+A menu with different options will be displayed.
 ```
 View Products for Sale
 View Low Inventory
@@ -49,7 +49,7 @@ Run the following in a terminal to view the Supervisor View.
 ```
 node bamazonSupervisor.js
 ```
-A menu with different options is displayed.
+A menu with different options will be displayed.
 ```
 View Product Sales By Department
 Create New Department

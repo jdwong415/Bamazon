@@ -1,7 +1,15 @@
 # Bamazon
 A command-line store app using npm packages MySQL and Inquirer that lets customers purchase items; managers keep track of items, add stock and add new items; and supervisors view total profits and create departments.
 
-## Setting Up
+## Table of Contents 
+
+1. [Installation](#installation)
+2. [Customer View](#customer)
+3. [Manager View](#manager)
+4. [Supervisor View](#supervisor)
+
+<a name="installation"></a>
+## Installation
 First clone or download the source code.
 ```
 git clone https://github.com/jdwong415/Bamazon.git
@@ -11,6 +19,7 @@ Node.js is needed to run this app. Once that is installed, run the following to 
 npm install
 ```
 
+<a name="customer"></a>
 ## Customer View
 Run the following in a terminal to view the Customer View.
 ```
@@ -21,6 +30,7 @@ The available products will be displayed. Enter the number of the item to be pur
 #### bamazonCustomer.js
 ![Bamazon Customer](./images/customer.png)
 
+<a name="manager"></a>
 ## Manager View
 Run the following in a terminal to view the Manager View.
 ```
@@ -44,6 +54,7 @@ Add New Product
 #### bamazonManager.js
 ![Bamazon Manager](./images/manager.png)
 
+<a name="supervisor"></a>
 ## Supervisor View
 Run the following in a terminal to view the Supervisor View.
 ```

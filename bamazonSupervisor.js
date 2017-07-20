@@ -26,7 +26,7 @@ function menu() {
     {
       type: "list",
       name: "choice",
-      message: "Manager's Menu Options:",
+      message: "Supervisor's Menu Options:",
       choices: ["View Product Sales By Department", "Create New Department", "Exit"]
     }
   ]).then(function (answers) {
@@ -44,7 +44,7 @@ function menu() {
 
 // Display deparment stastics and total profit
 function displaySales() {
-  var sql = "SELECT departments.department_id AS ID, departments.department_name AS Department, IFNULL(SUM(products.product_sales),0) AS 'Product Sales', " +
+  var sql = "SELECT departments.department_id AS ID, departments.department_name AS Department, departments.over_head_costs AS 'Overhead Costs', IFNULL(SUM(products.product_sales),0) AS 'Product Sales', " +
     "IFNULL(SUM(products.product_sales),0) - departments.over_head_costs AS 'Total Profit' FROM departments " +
     "LEFT JOIN products ON departments.department_name = products.department_name " +
     "GROUP BY departments.department_name ORDER BY department_id";
